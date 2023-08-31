@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="CardDictionary" load_steps=2 format=3 uid="uid://bgf32p71sm436"]
+
+[ext_resource type="Script" path="res://Data/CardDictionary.gd" id="1_xfoun"]
+
+[resource]
+script = ExtResource("1_xfoun")
