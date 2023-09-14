@@ -1,68 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://df3d1kotuqjxk"]
+[gd_scene load_steps=5 format=3 uid="uid://df3d1kotuqjxk"]
 
 [ext_resource type="Script" path="res://Scripts/Card.gd" id="1_g6sxm"]
 [ext_resource type="Texture2D" uid="uid://3dvjmjdnmkjn" path="res://Art/Sprites/icon.svg" id="2_8j3e7"]
+[ext_resource type="Texture2D" uid="uid://djrej2n5jsko6" path="res://Art/Sprites/Cards/Action.png" id="2_rnawh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ehw7d"]
-size = Vector2(250, 350)
+size = Vector2(264, 336)
 
 [node name="Card" type="MarginContainer"]
-offset_right = 250.0
-offset_bottom = 350.0
+offset_right = 265.0
+offset_bottom = 335.0
 pivot_offset = Vector2(125, 175)
 mouse_filter = 2
 script = ExtResource("1_g6sxm")
 
-[node name="Border" type="ColorRect" parent="."]
-layout_mode = 2
-mouse_filter = 2
-color = Color(0.25098, 0.121569, 0, 1)
-
-[node name="Background" type="ColorRect" parent="Border"]
-layout_mode = 2
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 240.0
-offset_bottom = 340.0
-mouse_filter = 2
-
-[node name="BorderBar1" type="ColorRect" parent="Border"]
-layout_mode = 0
-offset_top = 50.0
-offset_right = 250.0
-offset_bottom = 60.0
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
-
-[node name="BorderBar2" type="ColorRect" parent="Border"]
-layout_mode = 0
-offset_top = 190.0
-offset_right = 250.0
-offset_bottom = 200.0
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
-
-[node name="LevelBox" type="ColorRect" parent="Border"]
-layout_mode = 0
-offset_left = 112.5
-offset_top = 325.0
-offset_right = 137.5
-offset_bottom = 350.0
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
-
-[node name="RequirementBox" type="ColorRect" parent="Border"]
-layout_mode = 0
-offset_left = 225.0
-offset_top = 75.0
-offset_right = 250.0
-offset_bottom = 175.0
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
-
-[node name="CardArt" type="Sprite2D" parent="Border"]
-position = Vector2(125, 125)
-texture = ExtResource("2_8j3e7")
+[node name="CardBG" type="Sprite2D" parent="."]
+position = Vector2(133, 168)
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("2_rnawh")
 
 [node name="Text" type="Control" parent="."]
 layout_mode = 2
@@ -70,8 +25,10 @@ mouse_filter = 2
 
 [node name="Title" type="Label" parent="Text"]
 layout_mode = 0
-offset_right = 250.0
-offset_bottom = 60.0
+offset_left = 69.0
+offset_top = 8.0
+offset_right = 256.0
+offset_bottom = 72.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "Title
@@ -81,22 +38,22 @@ vertical_alignment = 1
 
 [node name="Level" type="Label" parent="Text"]
 layout_mode = 0
-offset_left = 112.5
-offset_top = 325.0
-offset_right = 137.5
-offset_bottom = 350.0
+offset_left = 126.0
+offset_top = 308.0
+offset_right = 151.0
+offset_bottom = 333.0
 theme_override_font_sizes/font_size = 15
-text = "I"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Requirement" type="Label" parent="Text"]
 layout_mode = 0
-offset_left = 225.0
-offset_top = 175.0
-offset_right = 325.0
-offset_bottom = 200.0
+offset_left = 12.0
+offset_top = 192.0
+offset_right = 130.0
+offset_bottom = 244.0
 rotation = -1.5708
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 10
 text = "Requirements"
 horizontal_alignment = 1
@@ -105,20 +62,25 @@ vertical_alignment = 1
 [node name="Description" type="RichTextLabel" parent="Text"]
 layout_mode = 0
 offset_left = 15.0
-offset_top = 205.0
-offset_right = 235.0
-offset_bottom = 325.0
+offset_top = 224.0
+offset_right = 250.0
+offset_bottom = 308.0
+tooltip_text = "Description of Card goes here"
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
 text = "This is where the card description goes."
 
+[node name="CardArt" type="Sprite2D" parent="."]
+position = Vector2(160, 136)
+texture = ExtResource("2_8j3e7")
+
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(125, 175)
+position = Vector2(132, 168)
 shape = SubResource("RectangleShape2D_ehw7d")
 
-[connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_mouse_exited"]

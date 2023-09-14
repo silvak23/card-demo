@@ -22,7 +22,7 @@ func _ready():
 	rng.randomize()
 	var wait = rng.randf_range(1.0, 7.0)
 	emptystack = true
-	print(wait)
+	print("Wait time: " + str(wait))
 	$UI/Flash.visible = true
 	$UI.visible = false
 	$StartTimer.wait_time = wait
@@ -57,7 +57,7 @@ func _on_flash_timer_timeout():
 
 func draw_cards():
 	if turn == 0:
-		var cardWidth = 270
+		var cardWidth = 265
 		var startLoc = center
 		startLoc.x = startLoc.x - (cardWidth*(tempo[turn])/2.0)
 		$UI/Path/Loc.position = startLoc
@@ -91,7 +91,7 @@ func end_turn():
 	if turn == 0:
 		
 		for n in $UI/Hand.get_child_count():
-			print(str($UI/Hand.get_child(0).get_card()))
+			#print(str($UI/Hand.get_child(0).get_card()))
 			$UI/Hand.get_child(n).queue_free()
 		turn = 1
 	else:
@@ -103,7 +103,9 @@ func begin_turn():
 		draw_cards()
 	else:
 		var instance = cards.instantiate()
-		instance.set_card(1)
+		var rng = RandomNumberGenerator.new()
+		rng.randomize()
+		instance.set_card(rng.randi_range(1, noOfCards-1))
 		add_child(instance)
 		play_card(instance, 1)
 		
@@ -151,3 +153,7 @@ func up_tempo(t):
 
 func down_tempo(t):
 	tempo[t] -= 1
+
+
+func _on_card_draw_card():
+	pass # Replace with function body.

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c00bnetdk2jyn"]
 
 [ext_resource type="Script" path="res://Scripts/BackCard.gd" id="1_0nrn4"]
-[ext_resource type="Texture2D" uid="uid://3dvjmjdnmkjn" path="res://Art/Sprites/icon.svg" id="2_sopax"]
+[ext_resource type="Texture2D" uid="uid://bbxd3lpkddvd4" path="res://Art/Sprites/Nomad.jpeg" id="2_wx3gm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xsddn"]
 size = Vector2(384, 512)
@@ -27,30 +27,32 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 368.0
 offset_bottom = 496.0
-color = Color(0.360784, 0.266667, 0.141176, 1)
-
-[node name="ColorRect" type="ColorRect" parent="Background"]
-offset_top = 248.0
-offset_right = 384.0
-offset_bottom = 264.0
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="Background"]
-offset_top = 120.0
-offset_right = 384.0
-offset_bottom = 136.0
-color = Color(0, 0, 0, 1)
+color = Color(0.298039, 0.219608, 0.109804, 1)
 
 [node name="ColorRect5" type="ColorRect" parent="Background"]
-offset_top = 376.0
+offset_top = 498.0
+offset_right = 14.0
+offset_bottom = 512.0
+
+[node name="ColorRect6" type="ColorRect" parent="Background"]
+offset_right = 14.0
+offset_bottom = 14.0
+
+[node name="ColorRect7" type="ColorRect" parent="Background"]
+offset_left = 370.0
+offset_top = 498.0
 offset_right = 384.0
-offset_bottom = 392.0
-color = Color(0, 0, 0, 1)
+offset_bottom = 512.0
+
+[node name="ColorRect8" type="ColorRect" parent="Background"]
+offset_left = 370.0
+offset_right = 384.0
+offset_bottom = 14.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(192, 256)
-scale = Vector2(2, 2)
-texture = ExtResource("2_sopax")
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_wx3gm")
 
 [node name="Button" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0.196078)

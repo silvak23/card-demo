@@ -22,7 +22,7 @@ const DATA = {
 	Devastate :
 		["Devastate",Action,0,0,1,5, "Deal 5 damage"],
 	Blitz :
-		["Blitz",Action,0,0,1,2, "Deal 2 damage\nGain 1 [color=blue]tempo"],
+		["Blitz",Action,0,0,1,2, "Deal 2 damage\nGain 1 [color=blue]tempo[/color]"],
 	Cleave :
 		["Cleave",Action,0,0,1,2, "Deal 2 damage to all enemies"],
 }
