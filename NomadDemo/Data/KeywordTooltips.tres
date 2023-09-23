@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="KeywordTooltips" load_steps=2 format=3 uid="uid://cj8rstr16upln"]
+
+[ext_resource type="Script" path="res://Data/KeywordTooltips.gd" id="1_w4w1b"]
+
+[resource]
+script = ExtResource("1_w4w1b")

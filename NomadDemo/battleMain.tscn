@@ -1,104 +1,174 @@
-[gd_scene load_steps=6 format=3 uid="uid://bq365hbncuubb"]
+[gd_scene load_steps=11 format=3 uid="uid://bq365hbncuubb"]
 
-[ext_resource type="Script" path="res://Scripts/battleMain.gd" id="1_874gc"]
-[ext_resource type="PackedScene" uid="uid://co2w67x5vpj2m" path="res://Player.tscn" id="1_rwotu"]
-[ext_resource type="PackedScene" uid="uid://du4panamxwih" path="res://enemy.tscn" id="2_67ajc"]
-[ext_resource type="PackedScene" uid="uid://c00bnetdk2jyn" path="res://BackCard.tscn" id="3_1l1t8"]
+[ext_resource type="Texture2D" uid="uid://3dvjmjdnmkjn" path="res://Art/Sprites/icon.svg" id="1_0g886"]
+[ext_resource type="Script" path="res://Scripts/BattleMain.gd" id="1_s6v4g"]
 
-[sub_resource type="Curve2D" id="Curve2D_8wipk"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 400, 600, 0, 0, 0, 0, 1600, 600)
-}
-point_count = 2
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vbcx3"]
+height = 0.1
+radius = 20.0
 
-[node name="battleMain" type="Node2D"]
-script = ExtResource("1_874gc")
-noOfCards = 9
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_drsl8"]
+albedo_color = Color(0.721569, 0.352941, 0.0627451, 1)
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[sub_resource type="CylinderMesh" id="CylinderMesh_xjhgh"]
+material = SubResource("StandardMaterial3D_drsl8")
+top_radius = 20.0
+bottom_radius = 20.0
+height = 0.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_801ky"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_67c2r"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kgtvl"]
+material = SubResource("StandardMaterial3D_67c2r")
+custom_aabb = AABB(1, 1, 1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vx1lm"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0bav2"]
+material = SubResource("StandardMaterial3D_vx1lm")
+
+[node name="BattleMain" type="Node3D"]
+script = ExtResource("1_s6v4g")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.1, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("CylinderShape3D_vbcx3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("CylinderMesh_xjhgh")
+
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, -3.48787e-16, 3.48787e-16, 3.48787e-16, 1, -3.48787e-16, -3.48787e-16, 3.48787e-16, 1, 2.08165e-12, 3, 2.08165e-12)
+light_energy = 5.0
+light_indirect_energy = 20.0
+shadow_enabled = true
+omni_range = 20.0
+
+[node name="Camera3D" type="Camera3D" parent="Light"]
+transform = Transform3D(-1, 3.69465e-08, -7.92319e-08, 3.16108e-16, 0.906308, 0.422618, 8.74228e-08, 0.422618, -0.906308, 2.08165e-12, 2.08165e-12, -6)
+
+[node name="Player" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.5, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("BoxShape3D_801ky")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("BoxMesh_kgtvl")
+
+[node name="Sprite3D" type="Sprite3D" parent="Player"]
+transform = Transform3D(-3.49691e-08, 2.7903e-16, 0.8, 2.79029e-16, 0.8, -2.79029e-16, -0.8, 2.79029e-16, -3.49691e-08, 0.501, 2.08165e-12, 2.08165e-12)
+texture = ExtResource("1_0g886")
+
+[node name="Enemy" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy"]
+shape = SubResource("BoxShape3D_801ky")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy"]
+mesh = SubResource("BoxMesh_0bav2")
+
+[node name="Sprite3D" type="Sprite3D" parent="Enemy"]
+transform = Transform3D(-3.49691e-08, 2.7903e-16, 0.8, 2.79029e-16, 0.8, -2.79029e-16, -0.8, 2.79029e-16, -3.49691e-08, -0.501, 2.08165e-12, 2.08165e-12)
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("1_0g886")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-mouse_filter = 2
-color = Color(0.568627, 0.25098, 0.341176, 1)
 
-[node name="Player" parent="." instance=ExtResource("1_rwotu")]
-position = Vector2(64, 937)
-
-[node name="Enemy" parent="." instance=ExtResource("2_67ajc")]
-position = Vector2(1856, 64)
-hp_current = 100
-hp_max = 100
-
-[node name="StartTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="UI" type="Node2D" parent="."]
-
-[node name="TimerBar" type="ProgressBar" parent="UI"]
-modulate = Color(1, 0.482353, 0, 1)
-offset_top = 488.0
+[node name="VertContainer" type="VBoxContainer" parent="UI"]
+layout_mode = 0
 offset_right = 1920.0
-offset_bottom = 508.0
+offset_bottom = 1080.0
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="UI/VertContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="Enemy1Icon" type="TextureRect" parent="UI/VertContainer/HBoxContainer1"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+texture = ExtResource("1_0g886")
+stretch_mode = 2
+
+[node name="Enemy1Health" type="ProgressBar" parent="UI/VertContainer/HBoxContainer1/Enemy1Icon"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+grow_horizontal = 2
+grow_vertical = 0
+max_value = 20.0
+step = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/VertContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 350)
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="TempoContainer" type="HFlowContainer" parent="UI/VertContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="UI/VertContainer"]
+layout_direction = 3
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayerIcon" type="TextureRect" parent="UI/VertContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("1_0g886")
+stretch_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/VertContainer/HBoxContainer3/PlayerIcon"]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+grow_horizontal = 2
+grow_vertical = 0
+max_value = 20.0
+step = 1.0
+value = 20.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/VertContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_right = 20
+
+[node name="CardHand" type="HFlowContainer" parent="UI/VertContainer/HBoxContainer3/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+alignment = 1
+
+[node name="TurnTimerBar" type="ProgressBar" parent="UI/VertContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 15)
+layout_mode = 2
 value = 100.0
-fill_mode = 1
 show_percentage = false
 
-[node name="Card" parent="UI" instance=ExtResource("3_1l1t8")]
-position = Vector2(64, 568)
-scale = Vector2(0.5, 0.5)
-
-[node name="FlashTimer" type="Timer" parent="UI"]
-wait_time = 0.1
-one_shot = true
-
-[node name="Path" type="Path2D" parent="UI"]
-curve = SubResource("Curve2D_8wipk")
-
-[node name="Loc" type="PathFollow2D" parent="UI/Path"]
-position = Vector2(1000, 600)
-progress = 600.0
-rotates = false
-
-[node name="Hand" type="Node2D" parent="UI"]
-
-[node name="Placement" type="ColorRect" parent="UI"]
-offset_left = 721.0
-offset_top = 59.0
-offset_right = 986.0
-offset_bottom = 394.0
-scale = Vector2(0.8, 0.8)
-pivot_offset = Vector2(125, 175)
-mouse_filter = 2
-color = Color(0.490196, 0.294118, 0.141176, 0.486275)
-
-[node name="Win" type="Label" parent="UI"]
-visible = false
-offset_right = 1920.0
-offset_bottom = 1080.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 300
-text = "VICTORY!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Debug" type="Label" parent="UI"]
-offset_top = 32.0
-offset_right = 135.0
-offset_bottom = 58.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "DoubleTap = [0,0]"
-
-[node name="Flash" type="ColorRect" parent="UI"]
-visible = false
-offset_right = 1920.0
-offset_bottom = 1080.0
-mouse_filter = 2
-mouse_default_cursor_shape = 4
-color = Color(1, 1, 1, 0.980392)
-
-[connection signal="dealDamageEnemy" from="." to="Enemy" method="_on_battle_main_deal_damage_enemy"]
-[connection signal="dealDamagePlayer" from="." to="Player" method="_on_battle_main_deal_damage_player"]
-[connection signal="death" from="Enemy" to="." method="_on_enemy_death"]
-[connection signal="timeout" from="StartTimer" to="." method="_on_timer_timeout"]
-[connection signal="draw_card" from="UI/Card" to="." method="_on_card_draw_card"]
-[connection signal="timeout" from="UI/FlashTimer" to="." method="_on_flash_timer_timeout"]
+[node name="TurnTimer" type="Timer" parent="UI"]
+wait_time = 10.0
+autostart = true

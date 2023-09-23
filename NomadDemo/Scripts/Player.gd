@@ -23,7 +23,6 @@ func start_turn():
 func turn_end():
 	emit_signal("end_turn")
 
-
 func _on_battle_main_deal_damage_player(dmg):
 	hp_current -= dmg
 	if hp_current <= 0:

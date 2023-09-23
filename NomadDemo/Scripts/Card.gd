@@ -1,35 +1,38 @@
-extends MarginContainer
-
-#Unitinfo = [Name,Type,Class,Requirement,Level,Damage,Description]
-#Typeinfo = [Attack, Effect, Spell]
+extends Control
 
 @onready var CardDatabase = preload("res://Data/CardDictionary.tres")
-@onready var CardInfo = CardDatabase.DATA[Cardname]
-var Cardname = 2
-var played = false
-const PATH = "res://Art/Sprites/Cards/"
+@onready var KeywordTooltip = preload("res://Data/KeywordTooltips.tres")
+@onready var CardInfo = CardDatabase.DATA[cardID]
+const CARD_ART_PATH = "res://Art/Sprites/Cards/"
 
-signal to_play(id : Control, t : int)
+var cardID = 1
+var isPlayed = false
+var toolTips = ["tempo"]
+var z = 0
+
+signal to_play(id : Control, turn : int)
 
 var white = Color.WHITE
 var beige = Color.NAVAJO_WHITE
 var brown = Color.SADDLE_BROWN
 var orange = Color.SANDY_BROWN
 
+# Called when the node enters the scene tree for the first time.
 func _ready():
-	#print(CardInfo)
-	$Area2D.visible = true
+	$Control/Text/HBoxContainer2/CardArt/Popup.visible = false
 	update_card()
 
-func initialize(location):
-	position = location
 
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	pass
+
+# Changes the words and art displayed on the card using its ID
 func update_card():
-	#USE BOX CONTAINERS
-	var CardSize = size
-	$Text/Title.text = CardInfo[0]
-	$Text/Requirement.text = str(CardInfo[3])
-	$Text/Description.text = "[center]"+CardInfo[6]+" [/center]"
+	z = z_index
+	$Control/Text/HBoxContainer/Title.text = CardInfo[0]
+	$Control/Text/HBoxContainer2/Requirement.text = str(CardInfo[3])
+	$Control/Text/MarginContainer/Description.text = "[center]"+CardInfo[6]+" [/center]"
 	
 	# Card Level
 #	if CardInfo[4] == 1:
@@ -47,64 +50,80 @@ func update_card():
 	#Sprite
 	
 	if CardInfo[2] == 0:
-		$CardBG.texture = load(PATH+"Action.png")
+		$Control/Text/HBoxContainer2/CardArt.texture = load(CARD_ART_PATH+"Action.png")
 	else:
-		$CardBG.texture = load(PATH+"Spell.png")
+		$Control/Text/HBoxContainer2/CardArt.texture = load(CARD_ART_PATH+"Spell.png")
 	
 	
-	if FileAccess.file_exists(PATH+CardInfo[0].replace(" ","")+".png"):
-		$CardArt.texture = load(PATH+CardInfo[0].replace(" ","")+".png")
-	elif FileAccess.file_exists(PATH+CardInfo[0].replace(" ","")+".jpeg"):
-		$CardArt.texture = load(PATH+CardInfo[0].replace(" ","")+".jpeg")
+	if FileAccess.file_exists(CARD_ART_PATH+CardInfo[0].replace(" ","")+".png"):
+		$Control/Text/HBoxContainer2/CardArt.texture = load(CARD_ART_PATH+CardInfo[0].replace(" ","")+".png")
+	elif FileAccess.file_exists(CARD_ART_PATH+CardInfo[0].replace(" ","")+".jpeg"):
+		$Control/Text/HBoxContainer2/CardArt.texture = load(CARD_ART_PATH+CardInfo[0].replace(" ","")+".jpeg")
 	else:
-		$CardArt.texture = load("res://Art/Sprites/icon.svg")
+		$Control/Text/HBoxContainer2/CardArt.texture = load("res://Art/Sprites/icon.svg")
 	
 	if CardInfo[1] == 0:
-		$Text/Title.add_theme_color_override("font_color", brown)
-		$Text/Description.add_theme_color_override("default_color", brown)
-		$Text/Level.add_theme_color_override("font_color", brown)
-		$Text/Requirement.add_theme_color_override("font_color", brown)
+		$Control/Text/HBoxContainer/Title.add_theme_color_override("font_color", brown)
+		$Control/Text/MarginContainer/Description.add_theme_color_override("default_color", brown)
+		$Control/Text/Level.add_theme_color_override("font_color", brown)
+		$Control/Text/HBoxContainer2/Requirement.add_theme_color_override("font_color", brown)
 		return
 	if CardInfo[1] == 1:
-		$Text/Title.add_theme_color_override("font_color", orange)
-		$Text/Description.add_theme_color_override("default_color", orange)
-		$Text/Level.add_theme_color_override("font_color", orange)
-		$Text/Requirement.add_theme_color_override("font_color", orange)
+		$Control/Text/HBoxContainer/Title.add_theme_color_override("font_color", orange)
+		$Control/Text/MarginContainer/Description.add_theme_color_override("default_color", orange)
+		$Control/Text/Level.add_theme_color_override("font_color", orange)
+		$Control/Text/HBoxContainer2/Requirement.add_theme_color_override("font_color", orange)
 		return
 	else:
-		$Text/Title.add_theme_color_override("font_color", brown)
-		$Text/Description.add_theme_color_override("default_color", brown)
-		$Text/Level.add_theme_color_override("font_color", brown)
-		$Text/Requirement.add_theme_color_override("font_color", brown)
+		$Control/Text/HBoxContainer/Title.add_theme_color_override("font_color", brown)
+		$Control/Text/MarginContainer/Description.add_theme_color_override("default_color", brown)
+		$Control/Text/Level.add_theme_color_override("font_color", brown)
+		$Control/Text/HBoxContainer2/Requirement.add_theme_color_override("font_color", brown)
 		return
 
-func set_card(n):
-	Cardname = n
-
-func get_card():
-	return Cardname
 
 func _on_mouse_entered():
-	if played:
+	if isPlayed:
 		return
-	self.set_scale(Vector2(1.2,1.2))
+	z_index = 20
+	self.set_scale(Vector2(1.1,1.1))
 
 func _on_mouse_exited():
-	if played:
+	if isPlayed:
 		return
+	z_index = z
 	self.set_scale(Vector2(1,1))
 
-func _on_area_2d_input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			emit_signal("to_play", self, 0)
 
 func set_played():
 	self.set_scale(Vector2(1,1))
-	played = true
+	isPlayed = true
+
+func set_card_id(n):
+	cardID = n
+
+func get_card():
+	return cardID
 
 func get_type():
 	return CardInfo[1]
 
 func get_damage():
 	return CardInfo[5]
+
+func _on_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			emit_signal("to_play", self, 1)
+
+
+func _show_tooltip(r):
+	$Control/Text/HBoxContainer2/CardArt/Popup.visible = 1
+	print(r)
+	var tip = KeywordTooltip.DATA[toolTips.find(r)]
+	$Control/Text/HBoxContainer2/CardArt/Popup/PopupText.text = "[u]"+tip[0]+"[/u]\n"+tip[1]
+	return
+
+func _hide_tooltip(_r):
+	$Control/Text/HBoxContainer2/CardArt/Popup.visible = 0
+	return
